@@ -36,9 +36,8 @@ export function DiscordButton() {
           <p className="text-muted-foreground flex items-center gap-1 text-sm">
             <span className="flex gap-1 text-green-400">
               <CircleUserIcon className="my-auto" />
-              {stats.active_members}
+              {stats.total_members} Members 
             </span>
-            / {stats.total_members}
           </p>
         ) : null}
       </div>
