@@ -4,9 +4,11 @@ import { CircleUserIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { getDiscordStats } from "./actions";
+import { useMessages } from "@/lib/hooks/useMessages";
 import Link from "next/link";
 
 export function DiscordButton() {
+  const messages = useMessages();
   const [stats, setStats] = useState<{
     active_members: number;
     total_members: number;

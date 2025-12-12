@@ -16,6 +16,8 @@ import { useEffect, useState, use } from "react";
 import Autoplay from "embla-carousel-autoplay";
 import { localizeHref } from "@/lib/locale";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useMessages } from "@/lib/hooks/useMessages";
 
 import WulfrumProsthesis from "./(showcaseImages)/wulfrum_prosthesis.png";
 import DragonFlyMount from "./(showcaseImages)/dragonfly_mount.gif";
@@ -32,8 +34,9 @@ interface CarouselItem {
   link: string;
 }
 
-export default function HomePage({ params }: { params: Promise<{ lang?: string }> }) {
-  const resolvedParams = use(params);
+export default function HomePage() {
+  const params = useParams();
+  const messages = useMessages();
   const [isMobile, setIsMobile] = useState(false);
   const carouselItems: CarouselItem[] = [
     {
@@ -85,18 +88,16 @@ export default function HomePage({ params }: { params: Promise<{ lang?: string }
       <div className="container mx-auto flex flex-1 flex-col gap-8 px-12 py-8 lg:flex-row lg:items-center lg:justify-between lg:py-0">
         <div className="w-lg space-y-6 max-lg:py-32 lg:max-w-2xl">
           <h1 className="text-4xl font-semibold text-balance">
-            #1 Resource for Hytale Modding
-            <FlipWords words={["Guides", "Documentation", "Resources"]} />
+            {messages.home.title}
+            <FlipWords words={messages.home.flipwords} />
           </h1>
           <h2 className="text-muted-foreground text-lg text-balance">
-            The number one community resource for modding Hytale, featuring
-            comprehensive guides, detailed documentation, and essential tools to
-            kickstart your modding journey.
+            {messages.home.description}
           </h2>
           <div className="flex flex-wrap gap-4">
             <Button asChild>
-              <Link href={localizeHref("/docs", resolvedParams.lang?.toString())}>
-                <BookIcon /> Docs
+              <Link href={localizeHref("/docs", params.lang?.toString())}>
+                <BookIcon /> {messages.home.documentation}
               </Link>
             </Button>
             <DiscordButton />
