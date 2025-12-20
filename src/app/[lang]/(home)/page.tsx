@@ -104,7 +104,9 @@ export default function HomePage() {
                 <BookIcon /> {messages.home.documentation}
               </Link>
             </Button>
-            <DiscordButton />
+            <div className="pb-8">
+              <DiscordButton />
+            </div>
             <Button asChild>
               <Link href="https://forum.hytalemodding.guide" target="_blank" rel="noopener noreferrer">
                 <MessageSquare /> Forum
