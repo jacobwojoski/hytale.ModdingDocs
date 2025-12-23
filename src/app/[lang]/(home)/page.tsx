@@ -228,13 +228,13 @@ export default function HomePage() {
   const repeatedItems = [...shuffledItems, ...shuffledItems, ...shuffledItems];
 
   return (
-    <div className="relative flex flex-1 overflow-hidden">
+    <div className="relative flex flex-1 flex-col overflow-hidden">
       <GitInfoButton />
       <Spotlight />
-      <div className="container mx-auto flex flex-1 flex-col items-center px-12 py-8">
-        <div className="max-w-5xl space-y-8 text-center py-32">
+      <div className="container mx-auto flex flex-col items-center px-4 md:px-12 py-8 flex-1 justify-center">
+        <div className="max-w-5xl space-y-8 text-center">
             <div className="space-y-6">
-            <h1 className="text-5xl font-semibold text-balance">
+            <h1 className="text-4xl md:text-5xl font-semibold text-balance">
               <div>{messages.home.title.split("{flipwords}")[0]}</div>
               <div>
                 <FlipWords words={messages.home.flipwords} />
@@ -243,7 +243,7 @@ export default function HomePage() {
               {messages.home.title.split("{flipwords}")[1]}
               </div>
             </h1>
-            <h2 className="text-muted-foreground text-xl text-balance">
+            <h2 className="text-muted-foreground text-lg md:text-xl text-balance">
               {messages.home.description}
             </h2>
             </div>
@@ -268,7 +268,7 @@ export default function HomePage() {
         </div>
       </div>
       
-      <div className="absolute left-0 right-0 bottom-16">
+      <div className="w-full mt-auto mb-8 md:mb-16 pb-16">
         <Marquee className="h-64 w-full">
           <MarqueeFade side="left" className="w-12" />
           <MarqueeContent speed={50} pauseOnHover autoFill={false}>
