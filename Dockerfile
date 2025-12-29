@@ -23,10 +23,15 @@ FROM oven/bun:alpine AS runner
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 WORKDIR /app
+
+RUN apk add --no-cache git
+
 COPY --from=builder /app/public ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
 COPY --from=builder --chown=nextjs:nodejs /app/package.json ./package.json
+COPY --from=builder /app/content/docs/ ./content/docs/
+COPY --from=builder /app/.git ./.git
 COPY --from=builder --chown=nextjs:nodejs /app/content/projects ./content/projects
 USER nextjs
 EXPOSE 8080

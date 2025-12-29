@@ -12,6 +12,7 @@ import type { Metadata } from "next";
 import { createRelativeLink } from "fumadocs-ui/mdx";
 import { branch } from "@/git-info.json";
 import { ViewTransition } from "react";
+import { getGithubLastEdit } from 'fumadocs-core/content/github';
 import Link from "next/link";
 
 export default async function Page(
@@ -24,7 +25,11 @@ export default async function Page(
   const messages = require(`@/../messages/${params.lang}.json`);
 
   const MDX = page.data.body;
-  const lastModified = page.data.lastModified;
+  const lastModified = await getGithubLastEdit({
+    owner: "HytaleModding",
+    repo: "site",
+    path: `content/docs/${page.path}`
+  })
   const authors = page.data.authors;
 
   return (
