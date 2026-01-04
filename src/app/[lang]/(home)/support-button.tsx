@@ -16,8 +16,6 @@ import { useParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
 import { Sponsor } from "@/lib/types/sponsor";
 
-
-
 export function SponsorButton() {
   const messages = useMessages();
   const params = useParams();
@@ -130,7 +128,7 @@ export function SponsorButton() {
                       title={`+ ${sponsorsList.length - displayedSponsors.length}`}
                     >
                       <AvatarFallback>
-                        {`+ ${sponsorsList.length - displayedSponsors.length}`}
+                        {`+${sponsorsList.length >= 10 + MAX_DISPLAY ? "" : " "}${sponsorsList.length - displayedSponsors.length}`}
                       </AvatarFallback>
                     </Avatar>
                   </motion.div>
