@@ -17,11 +17,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // Get all pages from source
   const pages = source.getPages();
-  
+
   for (const page of pages) {
     // Skip if page doesn't have url
     if (!page.url) continue;
-    
+
     sitemap.push({
       url: `${baseUrl}${page.url}`,
       lastModified: new Date(),
@@ -41,7 +41,7 @@ async function addProjectPages(sitemap: MetadataRoute.Sitemap) {
   try {
     const files = await readdir(projectsPath);
     const mdxFiles = files.filter(
-      (file) => file.endsWith(".mdx") && file !== "example.mdx"
+      (file) => file.endsWith(".mdx") && file !== "example.mdx",
     );
 
     sitemap.push({
