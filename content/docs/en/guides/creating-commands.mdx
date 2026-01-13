@@ -1,0 +1,24 @@
+---
+title: "Creating Commands"
+description: "Learn how to create custom commands for your Hytale mod."
+icon: "Command"
+authors:
+    - name: "Neil Revin"
+      link: "https://itsneil.dev"
+---
+
+Creating a command is easy. You need to extend the `CommandBase` class.
+
+```java
+public class ExampleCommand extends CommandBase {
+
+    public ExampleCommand() {
+        super("example", "A example command", false);
+    }
+
+    @Override
+    protected void executeSync(@Nonnull CommandContext context) {
+        context.sendMessage(Message.raw("Hello from ExampleCommand!"));
+    }
+}
+```
