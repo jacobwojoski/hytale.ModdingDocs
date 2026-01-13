@@ -1,0 +1,108 @@
+---
+title: "Customizing Camera Controls"
+description: "Intro to custom camera modding."
+authors:
+    - name: "Vibe Theory"
+      url: "https://discord.com/users/145420279294722048"
+---
+# Customizing Camera Controls Guide
+
+Hytale provides great camera customizability! Heres the essentials to get started.
+
+---
+
+## The Basics
+
+Camera is controlled by sending a `SetServerCamera` packet with `ServerCameraSettings`:
+
+```java
+ServerCameraSettings settings = new ServerCameraSettings();
+settings.distance = 10.0f;           // Zoom distance from player
+settings.isFirstPerson = false;      // Third-person mode
+settings.positionLerpSpeed = 0.2f;   // Smooth camera follow
+
+playerRef.getPacketHandler().writeNoCache(
+    new SetServerCamera(ClientCameraView.Custom, true, settings)
+);
+```
+
+This gives you a simple third-person camera. The presets below show more complete configurations.
+
+**Reset to default:**
+```java
+playerRef.getPacketHandler().writeNoCache(
+    new SetServerCamera(ClientCameraView.Custom, false, null)
+);
+```
+
+---
+
+## Camera Presets
+
+### Top-Down (RTS/ARPG Style)
+*Source: `com.hypixel.hytale.server.core.command.commands.player.camera.PlayerCameraTopdownCommand`*
+
+```java
+ServerCameraSettings settings = new ServerCameraSettings();
+settings.positionLerpSpeed = 0.2f;
+settings.rotationLerpSpeed = 0.2f;
+settings.distance = 20.0f;
+settings.displayCursor = true;
+settings.isFirstPerson = false;
+settings.movementForceRotationType = MovementForceRotationType.Custom;
+settings.eyeOffset = true;
+settings.positionDistanceOffsetType = PositionDistanceOffsetType.DistanceOffset;
+settings.rotationType = RotationType.Custom;
+settings.rotation = new Direction(0.0f, -1.5707964f, 0.0f);  // Look straight down
+settings.mouseInputType = MouseInputType.LookAtPlane;
+settings.planeNormal = new Vector3f(0.0f, 1.0f, 0.0f);       // Ground plane
+```
+
+### Side-Scroller (2D Platformer Style)
+*Source: `com.hypixel.hytale.server.core.command.commands.player.camera.PlayerCameraSideScrollerCommand`*
+
+```java
+ServerCameraSettings settings = new ServerCameraSettings();
+settings.positionLerpSpeed = 0.2f;
+settings.rotationLerpSpeed = 0.2f;
+settings.distance = 15.0f;
+settings.displayCursor = true;
+settings.isFirstPerson = false;
+settings.movementForceRotationType = MovementForceRotationType.Custom;
+settings.movementMultiplier = new Vector3f(1.0f, 1.0f, 0.0f);  // Lock Z-axis
+settings.eyeOffset = true;
+settings.positionDistanceOffsetType = PositionDistanceOffsetType.DistanceOffset;
+settings.rotationType = RotationType.Custom;
+settings.mouseInputType = MouseInputType.LookAtPlane;
+settings.planeNormal = new Vector3f(0.0f, 0.0f, 1.0f);         // Side plane
+```
+
+---
+
+## Imports
+
+```java
+import com.hypixel.hytale.protocol.ClientCameraView;
+import com.hypixel.hytale.protocol.Direction;
+import com.hypixel.hytale.protocol.MouseInputType;
+import com.hypixel.hytale.protocol.MovementForceRotationType;
+import com.hypixel.hytale.protocol.PositionDistanceOffsetType;
+import com.hypixel.hytale.protocol.RotationType;
+import com.hypixel.hytale.protocol.ServerCameraSettings;
+import com.hypixel.hytale.protocol.Vector3f;
+import com.hypixel.hytale.protocol.packets.camera.SetServerCamera;
+```
+
+---
+
+## Tips
+
+- **Zoom:** Adjust `distance` (higher = further out)
+- **Smoothness:** `positionLerpSpeed` and `rotationLerpSpeed` control how quickly the camera catches up to its target
+- **Wall clipping:** Use `PositionDistanceOffsetType.DistanceOffsetRaycast`
+- **Lock camera:** Set `isLocked = true` in the packet to prevent player changes
+- **2D movement:** Set `movementMultiplier` to zero out an axis
+
+---
+
+*From Hytale Server build `2026.01.13-dcad8778f`*
