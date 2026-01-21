@@ -224,7 +224,7 @@ TODO: Example on how to give permissions to players
 If you want variants of the same command without doing argument parsing you can instead use `addUsageVariant(new OtherCommandClass())` in the original commands constructor. 
 
 The only difference is in the `OtherCommandClass()` constrcutor you don't pass the command name to the super class.
-```
+```java
 public class GiveCommand extends AbstractPlayerCommand {
     private final RequiredArg<String> itemArg;
     public GiveCommand () {
