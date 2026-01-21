@@ -221,6 +221,33 @@ TODO: Example on how to give permissions to players
 
 --- 
 ## Command Variants
+If you want variants of the same command without doing argument parsing you can instead use `addUsageVariant(new OtherCommandClass())` in the original commands constructor. 
+
+The only difference is in the `OtherCommandClass()` constrcutor you don't pass the command name to the super class.
+```
+public class GiveCommand extends AbstractPlayerCommand {
+    private final RequiredArg<String> itemArg;
+    public GiveCommand () {
+        super("give", "Give item to yourself");
+        this.itemArg = withRequiredArg("item", "Item", ArgTypes.STRING);
+        addUsageVariant(new GiveOtherCommand())
+    }
+    // Give commands execute should be here
+    ...
+}
+
+// Variant give other command
+public static class GiveOtherCommand extends AbstractAsyncCommand {
+    private final RequiredArg<String> itemArg;
+    private final RequiredArg<String> playerArg;
+
+    public GiveOtherCommand () {
+        super("Give item to another player"); //NOTE: no command name was specified here!
+        this.playerArg = withRequiredArg("player", "Target Player", ArgTypes.PLAYER_REF);
+        this.itemArg = withRequiredArg("item", "Item", ArgTypes.STRING);
+    }
+}
+```
 
 --- 
 ## Sub Commands and Command Collections
