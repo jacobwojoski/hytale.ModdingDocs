@@ -18,18 +18,17 @@ You can see information on the following topics:
     - AbstractTargetPlayerCommand
     - AbstractTargetEntityCommand
 - Arguments 
-    - 
 - Argument Validators
-    - 
 - Permissions
-- Command Variants & Subcommands
+- Command Variants
+- Subcommands
 
 ## The `AbstractAsyncCommand` Class
 The most basic command is an `AbstractAsyncCommand`. Unlike the other commands AbstractAsyncCommand's ececute funtion is called `executeAsync` and returns a `completeableFuture`
 
-`AbstractAsyncCommand` runs on its own background thread. This means by default it is not tied to any world instance. Because of this it can not edit any Stores or Refs without getting the desired world first as the world needs to ececute the command in its thread. To access this data any of the other command types would be prefered and are likely what you will be using instead.
+*WARN* `AbstractAsyncCommand` runs on its own background thread. This means it is not tied to any world instance. Because of this it can not edit any Stores or Refs without getting the desired world first as the world needs to ececute the command in its thread. To access this data any of the other command types would be prefered and are likely what you will want to use instead.
 
-The main purpose for a command like this would be for something that can happen everywhere and is not tied to a world. For example a `serverRules` command to tell the user thats running the command what are the servers rules are nomatter what world they are in. 
+The main purpose for a command like this would be for something that can happen everywhere and is not tied to a specific world. For example a `serverRules` command to tell the user thats running the command what are the servers rules are nomatter what world they are in.
 
 ```java
 // Command that can be run that lists the server rules in chat to the player
@@ -52,7 +51,7 @@ public class ServerRulesCommand extends AbstractAsyncCommand {
 }
 ```
 
-Remember to add the command to the command registry in your main plugin class!
+*NOTE:* Remember to add the command to the command registry in your main plugin class.
 ```java
 public class TutorialCommandsPlugin extends JavaPlugin {
     public TutorialCommandsPlugin(@Nonnull JavaPluginInit) { super(init); }
@@ -68,6 +67,7 @@ public class TutorialCommandsPlugin extends JavaPlugin {
     }
 }
 ```
+---
 
 ## The `AbstractPlayerCommand` Class
 
