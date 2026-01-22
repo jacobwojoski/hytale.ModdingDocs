@@ -138,31 +138,48 @@ The following ArgTypes are available (only lists common types):
 ```java
 // Example usage: /healplayer --player john --value 50 --message "Feels Good" --debug
 public class HealPlayerCommand extends AbstractTargetPlayerCommand {
-    private RequiredArg<String> playerArg;
-    private DefaultArg<Integer> healthArg;
-    private OptionalArg<String> messageArg
-    private FlagArg<Boolean> debugArg;
-    
-    public ExampleCommand() {
+    private final RequiredArg<String> playerArg;
+    private final DefaultArg<Float> healthArg;
+    private final OptionalArg<String> messageArg;
+    private final FlagArg debugArg;
+
+    public HealPlayerCommand() {
         super("healplayer", "Healing a player for an <input> ammount of HP (default: 100)");
 
-        this.playerArg = this.withRequiredArg("player", "Player Reference", ArgTypes.PLAYER_REF);
-        this.healthArg = this.withDefaultArg("amount", "Health to add to players", ArgTypes.INTEGER, "100");
+        // args <Command String> <Description> <Arg Type>
+        this.playerArg = this.withRequiredArg("name", "Player Name", ArgTypes.STRING);
+
+        // args <Command String> <Description> <Default Value> <Desc of default value>
+        this.healthArg = this.withDefaultArg("health", "Amount to heal player", ArgTypes.FLOAT, (float)100, "Desc of Default: 100");
+
+        // args <Command String> <Description> <ArgType>
         this.messageArg = this.withOptionalArg("message", "Message to print while healing", ArgTypes.STRING);
-        this.debugArg = this.withFlagArg("debug", "Add debug logs", ArgTypes.STRING);
+
+        // args <Command String> <Description>
+        this.debugArg = this.withFlagArg("debug", "Add debug logs");
     }
 
     @Override
-    protected void execute(@Nonnull CommandContext commandContext, @Nonnull Store<EntityStore> store, @Nonnull Ref<EntityStore> ref, @Nonnull PlayerRef playerRef, @Nonnull World world) {
-        if (this.debug) {
-             player.sendMessage(Message.raw("We are debugging " + message));
+    protected void execute(@NonNullDecl CommandContext commandContext, @NullableDecl Ref<EntityStore> ref, @NonNullDecl Ref<EntityStore> ref1, @NonNullDecl PlayerRef playerRef, @NonNullDecl World world, @NonNullDecl Store<EntityStore> store) {
+
+        if (this.debugArg != null) {
+            commandContext.sendMessage(Message.raw("We are debugging"));
         }
 
-        // TODO: Update this!
-        String message = messageArg.get(commandContext); // get the argument text by the player
-        player.sendMessage(Message.raw("Message Argument: " + message));
-    }
+        EntityStatMap stats = store.getComponent(ref, EntityStatMap.getComponentType());
+        int healthIdx = DefaultEntityStatTypes.getHealth();
+        EntityStatValue health = stats.get(healthIdx);
 
+        float missing = health.getMax() - health.get();
+        if (this.debugArg != null) {
+            commandContext.sendMessage(Message.raw("Player Arg:  " + playerArg + " health"));
+            commandContext.sendMessage(Message.raw("Missing:  " + missing + " health"));
+            commandContext.sendMessage(Message.raw("Adding:  " + health + " health to "));
+            commandContext.sendMessage(Message.raw(messageArg.toString()));
+        }
+
+        stats.addStatValue(healthIdx, healthArg.getDefaultValue());
+    }
 }
 ```
 
