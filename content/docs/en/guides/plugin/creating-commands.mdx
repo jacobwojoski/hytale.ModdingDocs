@@ -94,6 +94,7 @@ public class ExampleCommand extends AbstractPlayerCommand {
 ### The `AbstractTargetPlayerCommand` Class
 Like the `AbstractPlayerCommand` but adds a `--player <value: string>` argument to allow the user to specify which player they are targeting. 
 Is automatically threaded so you override the `execute` command instead of `executeAsync`.
+[See Example below](#example-command-arg-types)
 
 ### The `AbstractTargetEntityCommand` Class
 Uses a Ray to see what the player is looking at and tries to run the command on that entity. It is thread safe and will run on whatever world thread that includes the targeted entity. 
@@ -129,7 +130,7 @@ The following ArgTypes are available (only lists common types):
 - `ArgTypes.DOUBLE`
 - `ArgTypes.UUID`
 
-### Example
+### Example Command Arg Types
 Shows all Command arguemnt types with different input types
 
 ```java
