@@ -39,9 +39,7 @@ export default function SponsorsPage() {
             </div>
           </ViewTransition>
 
-          <ViewTransition>
-            <SponsorsList />
-          </ViewTransition>
+          <SponsorsList />
         </div>
       </div>
     </div>
