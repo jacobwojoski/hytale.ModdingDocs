@@ -233,7 +233,7 @@ public final class ExamplePlugin extends JavaPlugin {
         .registerComponent(PoisonComponent.class, PoisonComponent::new);
     PoisonComponent.setComponentType(poisonComponentType);
 
-    this.getEntityStoreRegistry().registerSystem(new PoisonSystem(this.poisonComponent));
+    this.getEntityStoreRegistry().registerSystem(new PoisonSystem(PoisonComponent.getComponentType()));
   }
 
   public static ExamplePlugin get() {
