@@ -29,7 +29,8 @@ public class PoisonComponent implements Component<EntityStore> {
 
   // Add static getter and setter to store componentType in the component instead of getting it from the plugin singleton.
   // - This allows anyone to call PoisonComponent.getComponentType() instead of ExamplePlugin.get().getPoisonComponentType();
-  ComponentType<EntityStore, PoisonComponent> type;
+  // - You could also update the setter to be a singleton if desired.
+  private static ComponentType<EntityStore, PoisonComponent> type;
   public static ComponentType<EntityStore, PoisonComponent> getComponentType(){
     return this.type;
   }
@@ -214,7 +215,6 @@ package scot.oskar.hytaletemplate;
 public final class ExamplePlugin extends JavaPlugin {
 
   private static ExamplePlugin instance;
-  private ComponentType<EntityStore, PoisonComponent> poisonComponent;
 
   public ExamplePlugin(@Nonnull JavaPluginInit init) {
     super(init);
@@ -227,6 +227,7 @@ public final class ExamplePlugin extends JavaPlugin {
     this.getEventRegistry().registerGlobal(PlayerReadyEvent.class, ExampleEvent::onPlayerReady);
     this.getEventRegistry().registerGlobal(PlayerChatEvent.class, ChatFormatter::onPlayerChat);
 
+    // Register the component & set the type in the component class so its easier to retrieve.
     ComponentType<EntityStore, PoisonComponent> poisonComponentType = this.getEntityStoreRegistry()
         .registerComponent(PoisonComponent.class, PoisonComponent::new);
     PoisonComponent.setComponentType(poisonComponentType);
