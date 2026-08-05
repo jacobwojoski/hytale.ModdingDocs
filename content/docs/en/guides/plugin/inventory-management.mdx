@@ -97,14 +97,87 @@ storageContainer.removeItemStackFromSlot((short) 4);
 ```
 
 { /*
+
+## Creating Placeable Storage Containers (EX: Chests)
+```json
+{ // assets top level
+    . . .
+    "Quality": "Debug",
+    . . .
+    "BlockType": {
+        "BlockEntity": {
+            "Components": {
+                "Capacity": 4
+            }
+        },
+    }
+```
+
+## Creating Held Storage Container (EX: Bag of Holding)
+```json
+{ // Asset's top level
+    "Quality": "Debug", // <- Not important, Used to show level of Container Section
+    "Container": {
+        "Capacity": 9
+    },
+    "Interactions": {
+	    "Primary": {
+		    "Interactions": [
+		        {
+			        // This allows somoene to hold MyCustomItem and Left-Click 
+			        //   to access the capacity 9 inventory
+			        "Type": "OpenItemStackContainer"
+			    }
+			]
+		}
+	}
+}
+```
+
+## Combination Container
+```json
+{ // assets top level
+  . . .
+  "Quality": "Debug",
+  "MaxStack": 1,
+  . . .
+  "Container": {
+    "Capacity": 4
+  }
+  . . . 
+  "BlockType": {
+    . . .
+    "BlockEntity": {
+      "Components": {
+        "Capacity": 4
+      }
+    }
+  }
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 ## Custom Inventories (Item Containers)
 #### Adding an inventory to an item
 You can add a custom inventory by adding the following to the items json
-```json
-"Container": {
-    "Capacity": 9
-},
-```
+
 And adding the following interaction allows opening the inventory UI Page by using a pre defined UI page. It opens the UI like how it would for a backpackpack. 
 This allows the player to see their inventory along with the items.
 ```json
